@@ -22,7 +22,7 @@ function getSnapshotWarnings () {
     });
 }
 
-describe('[API] Assertions', function () {
+describe.only('[API] Assertions', function () {
     it('Should perform .eql() assertion', function () {
         return runTests('./testcafe-fixtures/assertions-test.js', '.eql() assertion', {
             shouldFail: true,
