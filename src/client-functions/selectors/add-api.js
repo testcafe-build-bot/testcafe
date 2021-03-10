@@ -112,6 +112,8 @@ function getDerivativeSelectorArgs (options, selectorFn, apiFn, filter, addition
 
 function createPrimitiveGetterWrapper (observedCallsites, callsite) {
     return () => {
+        callsite.unawaitedConvertOrInspect = true;
+
         if (observedCallsites)
             observedCallsites.unawaitedSnapshotCallsites.add(callsite);
 
@@ -155,7 +157,8 @@ function addSnapshotProperties (obj, getSelector, SelectorBuilder, properties, o
                     if (observedCallsites) {
                         checkForExcessiveAwaits(observedCallsites.snapshotPropertyCallsites, callsite);
 
-                        observedCallsites.unawaitedSnapshotCallsites.delete(callsite);
+                        if (!callsite.unawaitedConvertOrInspect)
+                            observedCallsites.unawaitedSnapshotCallsites.delete(callsite);
                     }
 
                     this._ensureExecuting();
