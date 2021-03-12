@@ -243,6 +243,30 @@ describe.only('[API] Assertions', function () {
         expect(missingAwaitWarnings[1]).to.match(createRegExpFromFile('expected-missing-await-on-snapshot-callsite/template-expansion'));
     });
 
+    it('Console.log for promise which will be resolved', async function () {
+        await runTests('./testcafe-fixtures/assertions-test.js', 'Console.log for promise which will be resolved', { only: 'chrome' });
+
+        const missingAwaitWarningRegExp = createRegExp(WARNING_MESSAGES.missingAwaitOnSnapshotProperty);
+
+        const missingAwaitWarnings = testReport.warnings.filter(warningStr => {
+            return warningStr.match(missingAwaitWarningRegExp);
+        });
+
+        expect(missingAwaitWarnings.length).to.eql(1);
+    });
+
+    it('Convert for promise which will be resolved', async function () {
+        await runTests('./testcafe-fixtures/assertions-test.js', 'Convert for promise which will be resolved', { only: 'chrome' });
+
+        const missingAwaitWarningRegExp = createRegExp(WARNING_MESSAGES.missingAwaitOnSnapshotProperty);
+
+        const missingAwaitWarnings = testReport.warnings.filter(warningStr => {
+            return warningStr.match(missingAwaitWarningRegExp);
+        });
+
+        expect(missingAwaitWarnings.length).to.eql(1);
+    });
+
     it('Should not raise a warning when using DOM Node snapshot property without await in assignment', async function () {
         await runTests('./testcafe-fixtures/assertions-test.js', 'Snapshot property without await but valid', { only: 'chrome' });
 

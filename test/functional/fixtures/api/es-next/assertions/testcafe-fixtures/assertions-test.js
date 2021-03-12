@@ -189,11 +189,28 @@ test('Await Selector property', async t => {
 });
 
 test('Snapshot property without await', async t => {
-    await t.expect(Selector('#el1').innerText).eql('');
+    await t.expect(Selector('#el1').innerText).eql('text');
 
     console.log(Selector('#el1').innerText); //eslint-disable-line
 
     const tag = `element: ${Selector('#el1').tagName}`; //eslint-disable-line
+});
+
+test(`Console.log for promise which will be resolved`, async t => {
+    const a = Selector('#el1').innerText;
+
+    // eslint-disable-next-line no-console
+    console.log(a);
+
+    await t.expect(a).eql('text');
+});
+
+test(`Convert for promise which will be resolved`, async t => {
+    const a = Selector('#el1').innerText;
+
+    const tag = `${a}`; //eslint-disable-line
+
+    await t.expect(a).eql('text');
 });
 
 test('Snapshot property without await but valid', async t => {

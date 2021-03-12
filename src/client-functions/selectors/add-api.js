@@ -111,7 +111,11 @@ function getDerivativeSelectorArgs (options, selectorFn, apiFn, filter, addition
 }
 
 function createPrimitiveGetterWrapper (observedCallsites, callsite) {
+    callsite.callToPropertyCount = 0;
+
     return () => {
+        callsite.callToPropertyCount++;
+
         callsite.unawaitedConvertOrInspect = true;
 
         if (observedCallsites)
@@ -157,7 +161,9 @@ function addSnapshotProperties (obj, getSelector, SelectorBuilder, properties, o
                     if (observedCallsites) {
                         checkForExcessiveAwaits(observedCallsites.snapshotPropertyCallsites, callsite);
 
-                        if (!callsite.unawaitedConvertOrInspect)
+                        const propertyCalledMultipleTimes = callsite.callToPropertyCount && callsite.callToPropertyCount > 1;
+
+                        if (!propertyCalledMultipleTimes)
                             observedCallsites.unawaitedSnapshotCallsites.delete(callsite);
                     }
 

@@ -1,5 +1,5 @@
    191 |test('Snapshot property without await', async t => {
-   192 |    await t.expect(Selector('#el1').innerText).eql('');
+   192 |    await t.expect(Selector('#el1').innerText).eql('text');
    193 |
    194 |    console.log(Selector('#el1').innerText); //eslint-disable-line
    195 |
